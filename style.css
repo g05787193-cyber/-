@@ -1,0 +1,479 @@
+:root {
+    --bg: #1e0f28;
+    --surface: #2b1836;
+    --surface-2: #3a1f45;
+    --line: #4a2a58;
+    --ink: #f6eefb;
+    --ink-soft: #d9b9d4;
+    --pink: #ff5c96;
+    --pink-soft: #ff9dc0;
+    --pink-glow: rgba(255, 92, 150, 0.35);
+    --gold: #ffcf6b;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background:
+        radial-gradient(circle at 15% -5%, rgba(255, 92, 150, 0.25) 0%, transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(255, 157, 192, 0.16) 0%, transparent 50%),
+        radial-gradient(circle at 20% 0%, #331b40 0%, var(--bg) 55%);
+    color: var(--ink);
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px 15px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.hidden { display: none !important; }
+
+button, input { font-family: inherit; }
+
+/* ---------- Экран входа ---------- */
+.lock-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.lock-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 36px 24px;
+    border-radius: 28px 28px 10px 28px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 24px 50px rgba(0,0,0,0.45), 0 0 60px -20px var(--pink-glow);
+}
+
+.lock-photo-wrap {
+    position: relative;
+    width: 100%;
+    height: 170px;
+    border-radius: 22px 22px 8px 22px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    border: 1px solid var(--line);
+    cursor: pointer;
+}
+
+.lock-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(18px) brightness(0.75) saturate(1.1);
+    transform: scale(1.15);
+    transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.lock-photo-wrap.revealed .lock-photo {
+    filter: blur(0px) brightness(1) saturate(1.1);
+    transform: scale(1);
+}
+
+.lock-photo-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.72rem;
+    color: var(--ink);
+    background: rgba(0,0,0,0.45);
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+}
+
+.lock-photo-wrap.revealed .lock-photo-hint {
+    opacity: 0;
+}
+
+.lock-box h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+}
+
+.question {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    margin-bottom: 22px;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+#pass-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    border-radius: 16px;
+    color: var(--ink);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#pass-input:focus { border-color: var(--pink); }
+
+.enter-btn {
+    background: var(--pink);
+    border: none;
+    color: #2a0e18;
+    font-weight: 800;
+    padding: 0 18px;
+    border-radius: 16px;
+    font-size: 1.15rem;
+    cursor: pointer;
+}
+
+.error-text {
+    color: #ff7a8a;
+    font-size: 0.85rem;
+    min-height: 18px;
+    margin-bottom: 8px;
+}
+
+.hint-btn {
+    background: transparent;
+    border: none;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-top: 6px;
+}
+
+.hint-text {
+    color: var(--gold);
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+/* ---------- Главный экран ---------- */
+.main-content {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.main-content.reveal .photo-section,
+.main-content.reveal .nav-buttons,
+.main-content.reveal .text-section,
+.main-content.reveal .message-section {
+    animation: revealIn 0.65s cubic-bezier(.2,.8,.2,1) both;
+}
+.main-content.reveal .photo-section   { animation-delay: 0.05s; }
+.main-content.reveal .nav-buttons     { animation-delay: 0.18s; }
+.main-content.reveal .text-section    { animation-delay: 0.30s; }
+.main-content.reveal .message-section { animation-delay: 0.42s; }
+
+@keyframes revealIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Фото */
+.photo-section {
+    width: 100%;
+    height: 380px;
+    border-radius: 28px 28px 12px 28px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    box-shadow: 0 0 0 1px var(--line), 0 20px 45px -18px var(--pink-glow);
+}
+
+.swiper { width: 100%; height: 100%; }
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.swiper-pagination-bullet {
+    background: var(--ink);
+    opacity: 0.4;
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--pink) !important;
+    opacity: 1;
+}
+
+/* Кнопки */
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.nav-btn {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 15px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--ink);
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s;
+}
+
+.nav-btn:active {
+    transform: scale(0.95);
+    background: var(--surface-2);
+    box-shadow: 0 0 24px -6px var(--pink-glow);
+}
+
+.btn-icon { font-size: 1.35rem; }
+
+.btn-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.tg-btn { border-color: rgba(255, 111, 156, 0.35); }
+.call-btn { border-color: rgba(255, 207, 107, 0.35); }
+.date-btn { border-color: rgba(160, 130, 255, 0.4); }
+
+/* Текст поздравления */
+.text-section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 28px 28px 12px 28px;
+    padding: 24px 22px;
+}
+
+.main-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+    line-height: 1.25;
+    background: linear-gradient(100deg, var(--pink) 20%, var(--pink-soft) 45%, var(--gold) 60%, var(--pink) 85%);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.text-content p {
+    color: var(--ink-soft);
+    font-size: 0.96rem;
+    line-height: 1.65;
+    margin-bottom: 12px;
+}
+
+.text-content p:last-child { margin-bottom: 0; }
+
+/* Сообщение */
+.message-section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 28px 28px 12px 28px;
+    padding: 22px;
+}
+
+.message-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 14px;
+}
+
+#message-input {
+    width: 100%;
+    min-height: 90px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    resize: vertical;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+}
+
+#message-input:focus { border-color: var(--pink); }
+
+/* ---------- Модалка даты ---------- */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,5,15,0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    padding: 26px;
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-size: 1.4rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-content h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.modal-sub {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin: 8px 0 18px 0;
+}
+
+/* input[type=date] renders with each OS's native picker (wheel on iOS Safari,
+   calendar on Android/Chrome) — we only style the field chrome itself, which
+   is the part that's consistent everywhere. */
+#meeting-date {
+    width: 100%;
+    padding: 13px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 14px;
+    font-size: 1rem;
+    text-align: center;
+    color-scheme: dark;
+}
+
+.date-preview {
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin: 10px 0 14px;
+    min-height: 18px;
+}
+
+.confirm-btn {
+    width: 100%;
+    background: var(--pink);
+    border: none;
+    color: #2a0e18;
+    padding: 13px;
+    border-radius: 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.date-status {
+    color: #8fe3a8;
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+/* ---------- Плавающие сердечки ---------- */
+.hearts-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.floating-heart {
+    position: absolute;
+    bottom: -10%;
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: floatUp linear forwards;
+    filter: drop-shadow(0 0 6px var(--pink-glow));
+}
+
+@keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg); }
+    10%  { opacity: 0.9; }
+    90%  { opacity: 0.6; }
+    100% { opacity: 0; transform: translateY(-110vh) translateX(var(--drift, 20px)) rotate(25deg); }
+}
+
+/* ---------- Кнопка музыки ---------- */
+.music-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+.music-toggle.playing {
+    animation: musicPulse 1.6s ease-in-out infinite;
+    border-color: var(--pink);
+}
+
+@keyframes musicPulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--pink-glow); }
+    50%      { box-shadow: 0 0 0 8px transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .main-content.reveal .photo-section,
+    .main-content.reveal .nav-buttons,
+    .main-content.reveal .text-section,
+    .main-content.reveal .message-section,
+    .main-title,
+    .floating-heart,
+    .music-toggle.playing { animation: none; }
+}

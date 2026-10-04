@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>С днём рождения ✨</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,500&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ЭКРАН ВХОДА -->
+    <div id="lock-screen" class="lock-screen">
+        <div class="lock-box">
+            <div class="lock-photo-wrap" id="lock-photo-wrap">
+                <img src="images/photo4.jpg" alt="" class="lock-photo" id="lock-photo">
+                <span class="lock-photo-hint">нажми, чтобы приглядеться 👀</span>
+            </div>
+            <h2>Кто это?</h2>
+            <p class="question">Впиши имя — и попадёшь внутрь</p>
+
+            <div class="input-wrapper">
+                <input type="text" id="pass-input" placeholder="Впиши имя..." autocomplete="off">
+                <button onclick="checkPassword()" class="enter-btn" aria-label="Отправить">➔</button>
+            </div>
+
+            <p id="error-msg" class="error-text" role="alert"></p>
+
+            <button onclick="showHint()" class="hint-btn">подсказка</button>
+            <p id="hint-text" class="hint-text hidden">Это твоя кошка 🐈</p>
+        </div>
+    </div>
+
+    <!-- ОСНОВНОЙ ЭКРАН -->
+    <main id="main-content" class="main-content hidden">
+
+        <div id="hearts-layer" class="hearts-layer" aria-hidden="true"></div>
+
+        <button id="music-toggle" class="music-toggle" aria-label="Музыка">🔊</button>
+        <audio id="bday-audio" src="audio/bday-song.mp3" loop preload="auto"></audio>
+
+
+        <section class="photo-section">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="images/photo1.jpg" alt=""></div>
+                    <div class="swiper-slide"><img src="images/photo2.jpg" alt=""></div>
+                    <div class="swiper-slide"><img src="images/photo3.jpg" alt=""></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <section class="nav-buttons">
+            <a href="https://t.me/Sixwion" target="_blank" class="nav-btn tg-btn">
+                <span class="btn-icon">✈️</span>
+                <span class="btn-label">Написать</span>
+            </a>
+
+            <a href="tel:+996995282300" class="nav-btn call-btn">
+                <span class="btn-icon">📞</span>
+                <span class="btn-label">Позвонить</span>
+            </a>
+
+            <button onclick="openDateModal()" class="nav-btn date-btn">
+                <span class="btn-icon">📅</span>
+                <span class="btn-label">Встреча</span>
+            </button>
+        </section>
+
+        <section class="text-section">
+            <h1 class="main-title">С днём рождения, вайб-сеттер ✨</h1>
+            <div class="text-content">
+                <p>С днём рождения, самый яркий и сумасшедший человек в этом мире 🚀</p>
+                <p>Желаю тебе бесконечного вайба, исполнения абсолютно всех хотелок и чтобы жизнь была как самый лучший трек на повторе. Пусть всё, за что берёшься, приносит максимальный кайф, а вокруг будут только искренние люди.</p>
+                <p>Ты настоящий эксклюзив. Никогда не меняйся и сияй так же ярко 💖🔥</p>
+            </div>
+        </section>
+
+        <section class="message-section">
+            <h3 class="message-title">Скажи мне что-нибудь 💌</h3>
+            <form id="message-form">
+                <textarea id="message-input" placeholder="Напиши сюда, я сразу получу..." maxlength="500" required></textarea>
+                <button type="submit" class="confirm-btn">Отправить</button>
+            </form>
+            <p id="message-status" class="date-status"></p>
+        </section>
+    </main>
+
+    <!-- МОДАЛКА ДАТЫ -->
+    <div id="date-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeDateModal()">&times;</span>
+            <h3>Когда встречаемся? 🗓️</h3>
+            <p class="modal-sub">Раньше 2027 года — никак, такой уговор 😜</p>
+
+            <form id="date-form">
+                <input type="date" id="meeting-date" min="2027-01-01" value="2027-01-01" required>
+                <p id="date-preview" class="date-preview"></p>
+                <button type="submit" class="confirm-btn">Зафиксировать ✨</button>
+            </form>
+            <p id="date-status" class="date-status"></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
